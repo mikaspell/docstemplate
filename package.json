@@ -1,0 +1,31 @@
+{
+  "name": "DocsTemplate",
+  "version": "0.1.0",
+  "description": "Template for documentation",
+  "main": "./gulpfile.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikaspell/docstemplate.git"
+  },
+  "author": "Mika Spell",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-csso": "^1.0.1",
+    "gulp-imagemin": "^2.4.0",
+    "gulp-jade": "^1.1.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.1.1",
+    "gulp-sequence": "^0.4.4",
+    "gulp-uglify": "^1.5.1",
+    "gulp-watch": "^4.3.5",
+    "gulp-webserver": "^0.9.1",
+    "imagemin-pngquant": "^4.2.0",
+    "jade": "^1.11.0",
+    "jstransformer-markdown-it": "^0.2.2",
+    "rimraf": "^2.4.4"
+  }
+}
