@@ -1,45 +1,41 @@
 var gulp = require('gulp'),
-    jade = require('jade'),
-    jadee = require('gulp-jade'),
-    sass = require('gulp-sass'),
-    csso = require('gulp-csso'),
-    compressjs = require('gulp-uglify'),
-    imagemin = require('gulp-imagemin'),
-    pngquant = require('imagemin-pngquant'),
-    prefixer = require('gulp-autoprefixer'),
-    rename = require('gulp-rename'),
-    webserver = require('gulp-webserver'),
-    plumber = require('gulp-plumber'),
-    watch = require('gulp-watch'),
-    notify = require('gulp-notify'),
-    cleaner = require('rimraf'),
-    sequence = require('gulp-sequence'),
-    path = {
-      src: {
-        html: 'resources/views/pages/*.jade',
-        css: {
-          scss: 'resources/styles/main/style.scss',
-          vendor: 'resources/styles/vendor/*.css'
-        },
-        js: {
-          main: 'resources/scripts/*.js',
-          vendor: 'resources/scripts/vendor/*.js'
-        },
-        img: 'resources/images/**/*.*'
-      },
-      watch: {
-        html: 'resources/views/**/*.jade',
-        css: 'resources/styles/main/*.scss',
-        js: 'resources/scripts/*.js',
-        img: 'resources/images/**/*.*'
-      },
-      build: {
-        html: 'build/',
-        css: 'build/css/',
-        js: 'build/js/',
-        img: 'build/img/'
-      }
-    };
+  jade = require('jade'),
+  jadee = require('gulp-jade'),
+  sass = require('gulp-sass'),
+  csso = require('gulp-csso'),
+  compressjs = require('gulp-uglify'),
+  imagemin = require('gulp-imagemin'),
+  pngquant = require('imagemin-pngquant'),
+  prefixer = require('gulp-autoprefixer'),
+  rename = require('gulp-rename'),
+  webserver = require('gulp-webserver'),
+  plumber = require('gulp-plumber'),
+  prettify = require('gulp-jsbeautifier'),
+  watch = require('gulp-watch'),
+  notify = require('gulp-notify'),
+  cleaner = require('rimraf'),
+  sequence = require('gulp-sequence'),
+  bower = require('main-bower-files'),
+  path = {
+    src: {
+      html: 'resources/views/pages/**/*.jade',
+      css: 'resources/styles/style.scss',
+      js: 'resources/scripts/*.js',
+      img: 'resources/images/**/*.*'
+    },
+    watch: {
+      html: 'resources/views/**/*.jade',
+      css: 'resources/styles/**/*.scss',
+      js: 'resources/scripts/*.js',
+      img: 'resources/images/**/*.*'
+    },
+    build: {
+      html: 'build/',
+      css: 'build/css/',
+      js: 'build/js/',
+      img: 'build/img/'
+    }
+  };
 
 // Запуск локального сервера
 gulp.task('localserver', function() {
@@ -53,25 +49,25 @@ gulp.task('localserver', function() {
 
 // Чистка папки продакшена
 gulp.task('clean', function (cb) {
-    cleaner(path.build.html, cb);
+  cleaner(path.build.html, cb);
 });
 
 // Запуск компиляции HTML
 gulp.task('html', function() {
-
   gulp.src(path.src.html)
     .pipe(plumber())
     .pipe(jadee({
       jade: jade,
-      pretty: true
+      pretty: false
     }))
+    .pipe(prettify({indentSize: 2}))
     .pipe(gulp.dest(path.build.html))
     .pipe(notify(("Файл <%= file.relative %> изменен!")));
 });
 
 // Запуск компиляции CSS из SCSS
 gulp.task('css', function() {
-  gulp.src(path.src.css.scss)
+  gulp.src(path.src.css)
     .pipe(plumber())
     .pipe(sass({
       outputStyle: 'compressed'
@@ -86,7 +82,7 @@ gulp.task('css', function() {
 
 // Сжатие javascript
 gulp.task('js', function() {
-  return gulp.src(path.src.js.main)
+  return gulp.src(path.src.js)
     .pipe(plumber())
     .pipe(compressjs())
     .pipe(rename(function (path) {
@@ -110,7 +106,7 @@ gulp.task('image', function() {
 });
 
 gulp.task('vendors', function() {
-  var styles = gulp.src(path.src.css.vendor)
+  var styles = gulp.src(bower({group: 'css'}))
     .pipe(plumber())
     .pipe(csso())
     .pipe(rename(function (path) {
@@ -119,7 +115,7 @@ gulp.task('vendors', function() {
     .pipe(gulp.dest(path.build.css))
     .pipe(notify(("Файл <%= file.relative %> сжат!")));
 
-  var scripts = gulp.src(path.src.js.vendor)
+  var scripts = gulp.src(bower({group: 'js'}))
     .pipe(plumber())
     .pipe(compressjs())
     .pipe(rename(function (path) {
@@ -128,24 +124,24 @@ gulp.task('vendors', function() {
     .pipe(gulp.dest(path.build.js))
     .pipe(notify(("Файл <%= file.relative %> сжат!")));
 
-    return styles, scripts;
-})
+  return styles, scripts;
+});
 
 // Наблюдение за изменением файлов
 gulp.task('default', ['localserver'], function() {
 
-    watch([path.watch.html], function(event, cb) {
-      gulp.start('html');
-    });
-    watch([path.watch.css], function(event, cb) {
-      gulp.start('css');
-    });
-    watch([path.watch.js], function(event, cb) {
-      gulp.start('js');
-    });
-    watch([path.watch.img], function(event, cb) {
-      gulp.start('image');
-    });
+  watch([path.watch.html], function(event, cb) {
+    gulp.start('html');
+  });
+  watch([path.watch.css], function(event, cb) {
+    gulp.start('css');
+  });
+  watch([path.watch.js], function(event, cb) {
+    gulp.start('js');
+  });
+  watch([path.watch.img], function(event, cb) {
+    gulp.start('image');
+  });
 });
 
 // Выполнение всех тасков по порядку

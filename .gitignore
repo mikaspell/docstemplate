@@ -2,6 +2,7 @@
 *.css.map
 .idea
 node_modules
+resources/bower_components
 npm-debug.log
 
 build
