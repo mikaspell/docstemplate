@@ -1,9 +1,8 @@
 var gulp = require('gulp'),
-  jade = require('jade'),
-  jadee = require('gulp-jade'),
+  pug = require('gulp-pug'),
   sass = require('gulp-sass'),
   csso = require('gulp-csso'),
-  compressjs = require('gulp-uglify'),
+  uglyjs = require('gulp-uglify'),
   imagemin = require('gulp-imagemin'),
   pngquant = require('imagemin-pngquant'),
   prefixer = require('gulp-autoprefixer'),
@@ -18,13 +17,13 @@ var gulp = require('gulp'),
   bower = require('main-bower-files'),
   path = {
     src: {
-      html: 'resources/views/pages/**/*.jade',
+      html: 'resources/views/pages/**/*.pug',
       css: 'resources/styles/style.scss',
       js: 'resources/scripts/*.js',
       img: 'resources/images/**/*.*'
     },
     watch: {
-      html: 'resources/views/**/*.jade',
+      html: 'resources/views/**/*.pug',
       css: 'resources/styles/**/*.scss',
       js: 'resources/scripts/*.js',
       img: 'resources/images/**/*.*'
@@ -56,8 +55,7 @@ gulp.task('clean', function (cb) {
 gulp.task('html', function() {
   gulp.src(path.src.html)
     .pipe(plumber())
-    .pipe(jadee({
-      jade: jade,
+    .pipe(pug({
       pretty: false
     }))
     .pipe(prettify({indentSize: 2}))
@@ -84,7 +82,7 @@ gulp.task('css', function() {
 gulp.task('js', function() {
   return gulp.src(path.src.js)
     .pipe(plumber())
-    .pipe(compressjs())
+    .pipe(uglyjs())
     .pipe(rename(function (path) {
       path.basename += ".min"
     }))
@@ -112,19 +110,19 @@ gulp.task('vendors', function() {
     .pipe(rename(function (path) {
       path.basename += ".min"
     }))
-    .pipe(gulp.dest(path.build.css))
+    .pipe(gulp.dest(path.build.css +'/vendors'))
     .pipe(notify(("Файл <%= file.relative %> сжат!")));
 
   var scripts = gulp.src(bower({group: 'js'}))
     .pipe(plumber())
-    .pipe(compressjs())
+    .pipe(uglyjs())
     .pipe(rename(function (path) {
       path.basename += ".min"
     }))
-    .pipe(gulp.dest(path.build.js))
+    .pipe(gulp.dest(path.build.js +'/vendors'))
     .pipe(notify(("Файл <%= file.relative %> сжат!")));
 
-  return styles, scripts;
+  return [styles, scripts];
 });
 
 // Наблюдение за изменением файлов
