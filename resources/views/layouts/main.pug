@@ -1,0 +1,31 @@
+//-  Created by MikaSpell on 21.07.16.
+
+doctype html
+html(lang="ru")
+  head
+    block title
+      title Тестовый заголовок
+
+      link(rel="stylesheet", href="/css/vendors/normalize.min.css")
+      link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=cyrillic")
+      link(rel="stylesheet", href="/css/style.css")
+
+  body
+      header.wrapper
+        .left
+          img(src="http://placehold.it/100x50")
+        .right
+          h1 Тестовый Заголовок про одиннадцатиклассницу
+      .wrapper
+        aside.left
+          include ../modules/doc-menu
+        main.right
+          .prev-page
+            span Назад
+          .this-page
+            block content
+          .next-page
+            span Вперед
+
+      script(src="/js/vendors/jquery.min.js")
+      script(src="/js/custom.min.js")

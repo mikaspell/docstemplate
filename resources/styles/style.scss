@@ -1,0 +1,124 @@
+@import "../bower_components/susy/sass/susy";
+
+$susy: (
+  columns: 12,
+  gutters: .25,
+  gutter-position: inside,
+  global-box-sizing: border-box
+);
+
+$colors: (
+  main: #c69,
+  secondary: #699,
+  accent: #444343,
+  bg: #fafafa,
+);
+
+@include border-box-sizing;
+
+body {
+
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  background: map_get($colors, bg);
+}
+
+h1 {
+
+  font-family: Helvetica, Arial, sans-serif;
+  color: #808c99;
+  font-weight: 400;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 50px;
+}
+
+header {
+  height: 72px;
+  border-bottom: 2px solid #dadbdf;
+
+  .left, .right {
+    height: 70px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+}
+
+header .right,
+aside.left {
+
+  background: #fff;
+}
+
+.wrapper {
+  @include container();
+}
+
+.left {
+
+  @include span(3)
+}
+
+.right {
+
+  @include span(9);
+}
+
+main.right {
+
+  @include span(9);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.prev-page {
+
+  @include span(0.5);
+  top: 72px;
+}
+
+.this-page {
+
+  @include span(12);
+  @include gutter(1);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-top: 30px;
+
+  p {
+
+    text-align: justify;
+  }
+}
+
+.next-page {
+
+  top: 72px;
+  right: 0;
+  width: span(0.5);
+}
+
+.prev-page, .next-page {
+
+  height: 100%;
+  min-height: 100%;
+  padding-top: 20%;
+  position: fixed;
+  
+  &:hover {
+
+    cursor: pointer;
+    background: darken(map_get($colors, bg), 5%);
+  }
+}
+
+aside, main {
+
+  overflow-y: auto;
+}
+
+main {
+  position: relative;
+}
