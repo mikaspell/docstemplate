@@ -9,32 +9,28 @@
   },
   "author": "Mika Spell",
   "license": "MIT",
-  "devDependencies": {
-    "gulp": "^3.9.0",
+  "dependencies": {
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cached": "^1.1.0",
-    "gulp-csso": "^1.0.1",
+    "gulp-csso": "^1.1.0",
     "gulp-imagemin": "^2.4.0",
-    "gulp-jade": "^1.1.0",
-    "gulp-jsbeautifier": "^1.0.1",
+    "gulp-jsbeautifier": "^1.0.2",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.0.1",
+    "gulp-pug": "^3.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.1.1",
     "gulp-sequence": "^0.4.4",
     "gulp-uglify": "^1.5.1",
     "gulp-watch": "^4.3.5",
     "gulp-webserver": "^0.9.1",
-    "imagemin-pngquant": "^4.2.0",
-    "jade": "^1.11.0",
+    "imagemin-pngquant": "^4.2.2",
     "jstransformer-markdown-it": "^0.2.2",
     "main-bower-files": "^2.11.1",
     "rimraf": "^2.4.4"
   },
   "scripts": {
-    "postinstall": [
-      "npm install marked@0.3.5 -g",
-      "npm install node-gyp@3.2.1 -g"
-    ]
+    "postinstall": "npm install -g marked@0.3.5 node-gyp@3.2.1"
   }
 }
